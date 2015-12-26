@@ -38,6 +38,9 @@ class Vcf2addressbook(object):
             self.add_vcf()
             print('Imported {} contacts'.format(self.total_contacts))
         else:
+            if len(self.addressbook) == 0:
+                print('Missing or empty addressbook file... nothing done')
+                return
             for i in self.addressbook:
                 if i == '\n':
                     continue
