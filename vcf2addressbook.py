@@ -1,15 +1,22 @@
 #!/usr/bin/env python
+#
+# *******************************************************************
+# Convert a vcard3.0 vcf file to Trojita addressbook and sort by name
+# *******************************************************************
+#
 # Dimitrios Glentadakis <dglent@free.fr>
-# Purpose: Convert a vcard3.0 vcf file to Trojita addressbook and sort by name
+#
 # License: GPLv3
 #
-# Usage: place the script in the folder ~/.abook/
+# Usage:
+# ======
+# Place the script in the folder ~/.abook/
 # where you have the file addressbook of Trojita.
 # To only sort by name the contacts in Trojita, run the script without
 # any argument.
 # To import contacts from a vcf file run the script with the contacts
 # file as argument:
-# <python vcf2addressbook.py contacts.vcf> this will OVERWRITE
+# <python vcf2addressbook.py contacts.vcf> this OVERWRITE
 # the 'addressbook' file and the existing contacts will be lost.
 
 import sys
