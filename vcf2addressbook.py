@@ -12,9 +12,13 @@
 # <python vcf2addressbook.py contacts.vcf> this will OVERWRITE
 # the 'addressbook' file and the existing contacts will be lost.
 
-import vobject
-import io
 import sys
+try:
+    import vobject
+except:
+    print('Please install the python-vobject package')
+    sys.exit()
+import io
 
 
 class Vcf2addressbook(object):
@@ -41,6 +45,7 @@ class Vcf2addressbook(object):
             if len(self.addressbook) == 0:
                 print('Missing or empty addressbook file... nothing done')
                 return
+
             for i in self.addressbook:
                 if i == '\n':
                     continue
