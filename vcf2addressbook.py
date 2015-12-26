@@ -25,6 +25,7 @@ class Vcf2addressbook(object):
         self.catalog = {}
         self.names = []
         self.newfile = []
+        self.total_contacts = 0
         self.fn_addressbook = "addressbook"
         try:
             with open(self.fn_addressbook, 'r') as ff:
@@ -35,6 +36,7 @@ class Vcf2addressbook(object):
             stream = io.open(fname, "r", encoding="utf-8")
             self.vcards = vobject.readComponents(stream)
             self.add_vcf()
+            print('Imported {} contacts'.format(self.total_contacts))
         else:
             for i in self.addressbook:
                 if i == '\n':
@@ -68,6 +70,7 @@ class Vcf2addressbook(object):
             aa += 1
             cat_aa = ('[' + str(aa) + ']')
             fn = vcard.fn.value.encode('utf-8')
+            self.total_contacts += 1
             for p in vcard.getChildren():
                 attributs = p.params.get("TYPE", [])
                 if p.name == "ADR":
