@@ -32,7 +32,6 @@ class Vcf2addressbook(object):
 
     def __init__(self, vcf_file):
         fname = vcf_file
-        self.aa_list = []
         self.catalog = {}
         self.names = []
         self.newfile = []
@@ -58,17 +57,17 @@ class Vcf2addressbook(object):
                     continue
                 if i[:5] == "name=":
                     self.names.append(i[5:-1])
-                ai = i.strip()
-                if ai[0] == '[' and ai[-1] == ']':
-                    aa = ai
-                    self.catalog[aa] = []
+                record = i.strip()
+                if record[0] == '[' and record[-1] == ']':
+                    id_ = record
+                    self.catalog[id_] = []
                     continue
-                self.catalog[aa].append(i)
+                self.catalog[id_].append(i)
         self.sort()
         self.write_file()
 
     def add_vcf(self):
-        aa = 0
+        id_ = 0
         for vcard in self.vcards:
             details = []
             address = ['address=']
@@ -82,8 +81,8 @@ class Vcf2addressbook(object):
             workphone = ['workphone=']
             email = ['email=']
             url = ['url=']
-            aa += 1
-            cat_aa = ('[' + str(aa) + ']')
+            id_ += 1
+            cat_id_ = ('[' + str(id_) + ']')
             fn = vcard.fn.value.encode('utf-8')
             self.total_contacts += 1
             for p in vcard.getChildren():
@@ -126,7 +125,7 @@ class Vcf2addressbook(object):
                 try:
                     fn = email[1][:-2]
                 except:
-                    fn = str(aa)
+                    fn = str(id_)
             self.names.append(fn)
             details.append('name=' + fn + '\n')
             if len(email) >= 2:
@@ -184,7 +183,7 @@ class Vcf2addressbook(object):
                 workphone.append('\n')
                 wor = ''.join(i for i in workphone)
                 details.append(wor)
-            self.catalog[cat_aa] = details
+            self.catalog[cat_id_] = details
 
     def sort(self):
         self.names.sort(key=str.lower)
