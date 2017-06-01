@@ -83,7 +83,10 @@ class Vcf2addressbook(object):
             url = ['url=']
             id_ += 1
             cat_id_ = ('[' + str(id_) + ']')
-            fn = vcard.fn.value.encode('utf-8')
+            try:
+                fn = vcard.fn.value.encode('utf-8')
+            except AttributeError:
+                fn = ''
             self.total_contacts += 1
             for p in vcard.getChildren():
                 attributs = p.params.get("TYPE", [])
