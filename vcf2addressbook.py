@@ -16,7 +16,7 @@
 # any argument.
 # To import contacts from a vcf file run the script with the contacts
 # file as argument:
-# <python vcf2addressbook.py contacts.vcf> this OVERWRITE
+# <python vcf2addressbook.py contacts.vcf> this OVERWRITES
 # the 'addressbook' file and the existing contacts will be lost.
 
 import sys
