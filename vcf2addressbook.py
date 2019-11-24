@@ -81,6 +81,7 @@ class Vcf2addressbook(object):
             workphone = ['workphone=']
             email = ['email=']
             url = ['url=']
+            notes = ['notes=']
             id_ += 1
             cat_id_ = ('[' + str(id_) + ']')
             try:
@@ -124,6 +125,9 @@ class Vcf2addressbook(object):
                 if p.name == 'EMAIL':
                     if p.value != '':
                         email.append(p.value.encode('utf-8') + '\\n')
+                if p.name == 'NOTE':
+                    if p.value != '':
+                        notes.append(p.value.encode('utf-8') + '\\n')
             if fn == '':
                 try:
                     fn = email[1][:-2]
@@ -186,6 +190,11 @@ class Vcf2addressbook(object):
                 workphone.append('\n')
                 wor = ''.join(i for i in workphone)
                 details.append(wor)
+            if len(notes) >= 2:
+                notes[-1] = notes[-1][:-2]
+                notes.append('\n')
+                note = ''.join(i for i in notes)
+                details.append(note)
             self.catalog[cat_id_] = details
 
     def sort(self):
