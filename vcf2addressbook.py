@@ -138,7 +138,7 @@ class Vcf2addressbook(object):
             self.names.append(fn)
             details.append(f"name={fn}\n")
             if len(email) >= 2:
-                email[-1] = email[-1][:-2]
+                email[-1] = ' ' + email[-1]
                 email.append('\n')
                 ema = ''.join(i for i in email)
                 details.append(ema)
