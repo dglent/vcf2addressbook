@@ -85,7 +85,7 @@ class Vcf2addressbook(object):
             id_ += 1
             cat_id_ = ('[' + str(id_) + ']')
             try:
-                fn = vcard.fn.value.encode('utf-8')
+                fn = vcard.fn.value
             except AttributeError:
                 fn = ''
             self.total_contacts += 1
@@ -93,48 +93,50 @@ class Vcf2addressbook(object):
                 attributs = p.params.get("TYPE", [])
                 if p.name == "ADR":
                     if p.value.street != '':
-                        address.append(p.value.street.encode('utf-8') + '\\n')
+                        address.append(f'{p.value.street}\n')
                     if p.value.code != '':
-                        code.append(p.value.code.encode('utf-8') + '\\n')
+                        code.append(f'{p.value.code}\n')
                     if p.value.city != '':
-                        city.append(p.value.city.encode('utf-8') + '\\n')
+                        city.append(f'{p.value.city}\n')
                     if p.value.region != '':
-                        region.append(p.value.region.encode('utf-8') + '\\n')
+                        region.append(f'{p.value.region}\n')
                     if p.value.country != '':
-                        country.append(p.value.country.encode('utf-8') + '\\n')
+                        country.append(f'{p.value.country}\n')
                 if p.name == 'TEL':
                     if 'FAX' in attributs:
                         if p.value != '':
-                            fax.append(p.value.encode('utf-8') + '\\n')
+                            fax.append(f'{p.value}\n')
                     if 'WORK' in attributs and 'FAX' not in attributs:
                         if p.value != '':
-                            workphone.append(p.value.encode('utf-8') + '\\n')
+                            workphone.append(f'{p.value}\n')
                     if 'HOME' in attributs and 'FAX' not in attributs:
                         if p.value != '':
-                            phone.append(p.value.encode('utf-8') + '\\n')
+                            phone.append(f'{p.value}\n')
                     if 'CELL' in attributs and 'FAX' not in attributs:
                         if p.value != '':
-                            mobile.append(p.value.encode('utf-8') + '\\n')
+                            mobile.append(f'{p.value}')
                     if len(attributs) == 0:
                         if p.value != '':
-                            phone.append(p.value.encode('utf-8') + '\\n')
+                            phone.append(f'{p.value}')
                 if p.name == 'URL':
                     if p.name != '':
-                        url.append(p.value.encode('utf-8').
-                                   replace('http\://', 'http://') + '\\n')
+                        url.append(
+                            f"{p.value}\n".replace('http\://', 'http://')
+                        )
                 if p.name == 'EMAIL':
                     if p.value != '':
-                        email.append(p.value.encode('utf-8') + '\\n')
+                        email.append(f'{p.value}')
                 if p.name == 'NOTE':
                     if p.value != '':
-                        notes.append(p.value.encode('utf-8') + '\\n')
+                        notes.append(f'{p.value}')
             if fn == '':
                 try:
                     fn = email[1][:-2]
                 except:
                     fn = str(id_)
+
             self.names.append(fn)
-            details.append('name=' + fn + '\n')
+            details.append(f"name={fn}\n")
             if len(email) >= 2:
                 email[-1] = email[-1][:-2]
                 email.append('\n')
@@ -217,11 +219,11 @@ class Vcf2addressbook(object):
             del self.newfile[-1]
 
     def write_file(self):
-        with open(self.fn_addressbook, 'wb') as out_file:
+        with open(self.fn_addressbook, 'w') as out_file:
             out_file.writelines(self.newfile)
 
         if self.addressbook != self.newfile:
-            with open(self.fn_addressbook + '.bak', 'wb') as out_bak:
+            with open(self.fn_addressbook + '.bak', 'w') as out_bak:
                 out_bak.writelines(self.addressbook)
 
 if __name__ == '__main__':
